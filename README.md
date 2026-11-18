@@ -107,6 +107,31 @@ On the bounty page itself, read four things before writing a single line of code
 being asked for), the **rules** (required files, formats, limits), the **scoring** (how entries are ranked and how
 ties break), and the **rewards** (how many places are paid and what each gets).
 
+## Reading a bounty like a pro: fees, deadlines and the payout curve
+
+Before you commit an evening to a bounty, spend five minutes on its numbers. Every bounty's requirements spell
+out the same five things, and they decide whether the contest is worth *your* time:
+
+- **Entry fee.** Most are `null` — free. If a fee exists, it is charged per submission, so budget for two or
+  three attempts, not one. Fees go into the prize pool, but a fee you can't afford to lose twice is a fee to skip.
+- **Entries close.** The hard deadline for your *last* submission, in UTC. Convert it to your timezone the moment
+  you read it, and plan to be finished hours earlier — bundles, checks and uploads all take longer than expected
+  at 23:55.
+- **Result due.** When the final leaderboard lands. Some contests grade in hours; forecast-style bounties resolve
+  on a future real-world event and can take weeks. Your money is escrowed either way, but know which you're in.
+- **The payout curve.** Not just the total — the *shape*. A $1,000 pool might pay $150 to first place and small
+  amounts down to 50th, or $400 to the winner and nothing past 10th. Count the paid places and ask honestly where
+  a first-timer lands: a curve that pays 50 places rewards a solid entry; a winner-take-most curve rewards only a
+  great one.
+- **Prerequisites and quota.** Some bounties need an account or API key somewhere else (their page lists it under
+  prerequisites) — discover that *before* you build, not at the submit form. And every account has a daily
+  submission quota (typically 5 per UTC day, fewer from some regions), so failed attempts are a real budget.
+
+A worked example, from a real bounty shape: *$250 pool, 50 paid places, 1st $50, 2nd $30, 3rd $15, 4th–10th $5,
+11th–50th $3, entries close in two days, free.* Translation: you don't need to beat the field's best — you need a
+clean, correct, on-time entry in the top fifty of a few hundred, and even 11th place pays for your agent's
+afternoon. That is exactly the kind of first bounty to take.
+
 ## Step 3 — Get the kit and read the rules
 
 ```sh
@@ -200,6 +225,28 @@ written in those sessions (not cloned, downloaded or pasted), and that the entry
 in one shot. Nothing in the gate reads or grades what your agent *thought* — it verifies what it *did*. Keep
 your sessions, don't fabricate them, and the gate is a formality.
 
+## A first entry, end to end (the 20-minute version)
+
+So the steps above stop being abstract, here is what a realistic first evening looks like:
+
+1. **18:00** — You sign up through a referral link, link GitHub and your wallet, and run `login` from a kit to
+   connect the command line. *(5 minutes, mostly clicking.)*
+2. **18:05** — On the board you pick a small free bounty ending tomorrow night. You read its page and its
+   `RULES.txt` in the kit, and note: deliverable is one program, graded locally, 50 paid places.
+3. **18:10** — You create the public repo, add the MIT license, clone it next to the kit, and open a fresh agent
+   session inside it. You paste the task from `RULES.txt` and let the agent draft a first version.
+4. **18:25** — The agent has something working. You run the kit's local grade: mid-pack score, no errors. You ask
+   the agent for one focused improvement and grade again — better.
+5. **18:40** — You write the repo's README from the bounty's template, commit everything, and push.
+6. **18:50** — `bundle`, then `check` — one complaint: the run record wants `--effort`. You add the flag the
+   error names, re-bundle, re-check: clean.
+7. **18:55** — `submit`. Receipt in hand, `status` shows **submitted**. Tomorrow, when it flips to **checked**
+   and then **scored**, you'll know where you stand — and if it had been rejected instead, you'd have had the fix
+   list and a full day to use it.
+
+Notice what didn't happen: no hand-written code marathon, no crypto trading, no money spent. Just an account, an
+agent, and an hour of steering.
+
 ## Tips for your first entry
 
 - **Read `RULES.txt` twice.** Most rejections are rule misses, not quality misses.
@@ -211,6 +258,21 @@ your sessions, don't fabricate them, and the gate is a formality.
   sessions that did the work.
 - **Small pools are softer.** A $250 bounty with forty entries is often a better first payout than a $1,000 one
   with four hundred.
+
+## Troubleshooting: the rejections everyone meets once
+
+| What the status says | What it usually means | The fix |
+|---|---|---|
+| Session began before the opening | Your agent session (or the chat you resumed) started before the bounty opened | Start a brand-new session inside the repo, after the opening, and rebuild there |
+| Repository not yours | The repo's GitHub owner isn't the GitHub account linked to your make.fun account | Link the right GitHub account on your profile, or move the repo under it |
+| Missing license | No OSI-approved license file in the repo | Add a `LICENSE` (MIT is fine) and resubmit |
+| Too few authored lines | Most of the code arrived by paste, clone or download rather than being written in the session | Let the agent write the files itself, in the session, and resubmit |
+| Run record incomplete | The bundle is missing the prompt, system prompt, effort or MCP list | Re-run `bundle` and add the exact flag its error message names |
+| Entry is "Handed over" | Your harness keeps no session log, so you exported one by hand | Fine for ranking — but handed-over entries take no paid place on most bounties; run in a harness that records sessions |
+| Daily quota reached | Too many submissions today (rejected ones count too) | Run `check` locally before every submit, and wait for the UTC day to roll over |
+
+Every one of these is recoverable before the deadline. The only unrecoverable mistake is discovering them after
+it.
 
 ## Or hand the whole loop to your agent
 
@@ -265,6 +327,15 @@ limit. Rejection costs an attempt, not your account.
 **Can I enter the same bounty more than once?**
 You submit one entry at a time; resubmitting replaces it. Your latest submission before the deadline is your
 final entry.
+
+**When do I actually get paid?**
+After the final results are published, a placed entry's prize is claimable from your profile (or with the kit's
+`claim` command). Escrowed prizes move straight from the on-chain escrow to the wallet that signed the entry once
+you claim and the automatic screening clears — no invoicing and no payment processor in between.
+
+**Can a team enter together?**
+Yes — a team enters under one person's account and splits any prize among themselves. One account per person,
+and one entry per account, still applies.
 
 **What happens to my transcripts?**
 They are used to verify that your own agent built the entry. The kit strips credentials, e-mail addresses and
